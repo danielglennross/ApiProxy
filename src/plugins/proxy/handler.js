@@ -4,9 +4,16 @@ const apiProxyService = require('../../services/apiProxyService');
 
 exports.process = (request, reply) => {
     apiProxyService.getServiceConfig(request.params.service)
-    .then(c => new Promise((res,rej) => {
-        res();   
+    .then(config => {
+        request.info.host = config.getServiceUrl();      
+        return apiProxyService.makeRequest(
+            request, (req) => config.onRequest(req), (resp) => config.onResponse(resp)); 
+        })
+    .then(r => new Promise((resolve, reject) => {
+        resolve(reply(r));
     }))
-    .then(() => reply("cool").code(200))
-    .catch(err => console.log(err));
+    .catch(err => {
+        console.log(err);
+        reply(err).code(500);
+    });
 }
