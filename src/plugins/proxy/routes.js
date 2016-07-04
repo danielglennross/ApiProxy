@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 exports.registerRoutes = (server, option) => {
     server.route({

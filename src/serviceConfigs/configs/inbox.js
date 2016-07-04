@@ -6,7 +6,7 @@ class Inbox extends Base {
     constructor() {
         super();
 
-        this.setRoute('/v1/players/(\d+)/messages', req => {
+        this.setRoute('/v1/players/([0-9]+)/messages', req => {
             Promise.resolve({});
         }, res => Promise.resolve({}));
     }
@@ -14,8 +14,8 @@ class Inbox extends Base {
         return 'inbox';
     }
     getServiceUrl() {
-        return 'http://ew1-dv01-501-ilb.ad.bedegaming.com:1737/api/'; //todo read from config
+        return 'http://ew1-dv01-570-ilb.ad.bedegaming.com:9090/'; //todo read from config
     }
-}
+};
 
 module.exports = new Inbox();

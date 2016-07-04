@@ -12,7 +12,7 @@ module.exports = class Base {
             throw new TypeError("Must override name");
         }
         if (this.getServiceUrl === undefined) {
-            throw new TypeError("Must override serviceUrl")
+            throw new TypeError("Must override serviceUrl");
         }
         this.routeReqs = new Array();
         this.eventEmitter = new events.EventEmitter();
@@ -35,7 +35,7 @@ module.exports = class Base {
     }
 
     onRequest(request) {
-        const r = _.find(this.routeReqs, x => request.path.match(x.route));
+        const r = _.find(this.routeReqs, x => new RegExp(x.route).test(request.path));
         if (r && r.onRequest) {
             this.eventEmitter.on('onRequest', r.onRequest);
         }
@@ -43,7 +43,7 @@ module.exports = class Base {
     }
 
     onResponse(response) {
-        const r = _.find(this.routeReqs, x => response.path.match(x.route));
+        const r = _.find(this.routeReqs, x => new RegExp(x.route).test(response.req.path));
         if (r && r.onResponse) {
             this.eventEmitter.on('onResponse', r.onResponse);
         }

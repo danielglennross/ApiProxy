@@ -8,34 +8,19 @@ const _ = require('lodash');
 class ApiProxyService {
     getServiceConfig(name) {
         return Promise.resolve(
-           _.find(serviceConfigs, x => x.getName().toLowerCase() === name.toLowerCase())
+           _.find(serviceConfigs, 
+                x => x.getName().toLowerCase() === name.toLowerCase())
         );
     }
 
-    makeRequest(request, onRequest, onResponse) {
-
-        if (onRequest) {
-            onRequest(request);
-        }
-
-        const uri = request.info.host + (request.params.path ? encodeURIComponent(request.params.path) : '');
-        const options = {
-            headers: {
-                'X-Correlation-Token': `apiproxy-${Date.now()}`,
-                'X-Site-Code': 'testsite.com'
-            },
-            timeout: 5000
-        };
+    makeRequest(reqContext, onRequest, onResponse) {
+        if (onRequest) onRequest(reqContext);
 
         return new Promise((resolve, reject) => 
-            Wreck.request(request.method, uri, options, (err, response) => {
-                if (err) {
-                    reject(err);
-                }
-
-                if (onResponse) {
-                    onResponse(response);
-                }
+            Wreck.request(reqContext.method, reqContext.uri, reqContext.options, (err, response) => {
+                if (err) return reject(err);
+                if (onResponse) onResponse(response);
+                resolve(response);
             })
         );
     }    
