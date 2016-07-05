@@ -1,6 +1,7 @@
 'use strict';
 
 const Base = require('../base');
+const config = require('../../config/index');
 
 class Inbox extends Base {
     constructor() {
@@ -11,10 +12,10 @@ class Inbox extends Base {
         }, res => Promise.resolve({}));
     }
     getName() {
-        return 'inbox';
+        return config.inbox.name;
     }
     getServiceUrl() {
-        return 'http://ew1-dv01-570-ilb.ad.bedegaming.com:9090/'; //todo read from config
+        return config.inbox.uri;
     }
 };
 

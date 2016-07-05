@@ -1,20 +1,22 @@
 'use strict';
 
 const Base = require('../base');
+const loggingContentHandler = require('../../handlers/loggingContentHandler');
+const config = require('../../config/index');
 
 class Notes extends Base {
     constructor() {
         super();
 
-        this.setRoute('/notes', req => {
-            Promise.resolve({});
-        }, res => Promise.resolve({}));
+        this.setRoute('/notes', 
+            loggingContentHandler.logRequestContent, 
+            loggingContentHandler.logResponseContent);
     }
     getName() {
-        return 'notes';
+        return config.notes.name;
     }
     getServiceUrl() {
-        return 'http://ew1-dv01-501-ilb.ad.bedegaming.com:1737/api/'; //todo read from config
+        return config.notes.uri;
     }
 }
 

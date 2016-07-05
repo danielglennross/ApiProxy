@@ -14,16 +14,15 @@ class ApiProxyService {
     }
 
     makeRequest(reqContext, onRequest, onResponse) {
-        if (onRequest) onRequest(reqContext);
-
-        return new Promise((resolve, reject) => 
+        const onReqTask = onRequest ? onRequest(reqContext) : Promise.resolve({});
+        return onReqTask.then(_ => new Promise((resolve, reject) => 
             Wreck.request(reqContext.method, reqContext.uri, reqContext.options, (err, response) => {
                 if (err) return reject(err);
-                if (onResponse) onResponse(response);
-                resolve(response);
+                const onRespTask = onResponse ? onResponse(response) : Promise.resolve({});
+                onRespTask.then(_ => resolve(response));
             })
-        );
-    }    
+        ));
+    }  
 }
 
 module.exports = new ApiProxyService();

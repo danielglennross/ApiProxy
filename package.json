@@ -16,6 +16,7 @@
     "joi": "^8.4.2",
     "wreck": "^8.0.0",
     "lodash": "^4.7.0",
-    "require-dir": "^0.3.0"
+    "require-dir": "^0.3.0",
+    "confidence": "^3.0.1"
   }
 }

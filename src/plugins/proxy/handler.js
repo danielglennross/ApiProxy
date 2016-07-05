@@ -16,9 +16,17 @@ exports.process = (request, reply) => {
             return apiProxyService.makeRequest(
                 context, (req) => config.onRequest(req), (resp) => config.onResponse(resp));
         })
-        .then(res => reply(res))
+        .then(res => {
+            return reply(res);
+        })
         .catch(err => {
             console.log(err);
-            reply(err).code(500);
+            reply(createErrResp(err)).code(500);
         });
+};
+
+const createErrResp = (err) => {
+    return {
+        description : err.statusText || 'An error has occured'
+    };
 };
