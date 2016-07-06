@@ -17,6 +17,7 @@ module.exports = class Base {
         this.onResponses = new Array();
 
         this.onRequests.push(correlationTokenHandler);
+        this.onResponses.push(resp => resp.processedDate = Date.now());
     }
 
     setOnRequest(onReq) {
