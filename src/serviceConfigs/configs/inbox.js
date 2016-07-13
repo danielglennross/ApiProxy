@@ -8,8 +8,12 @@ class Inbox extends Base {
         super();
 
         this.setRoute('/v1/players/([0-9]+)/messages', req => {
+            // do work...
             Promise.resolve({});
-        }, res => Promise.resolve({}));
+        }, res => {
+            // do work...
+            Promise.resolve({});
+        });
     }
     getName() {
         return config.inbox.name;

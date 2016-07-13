@@ -4,19 +4,22 @@
   "description": "hapi app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/mocha --reporter spec test/**/*.js",
     "start": "node index.js --harmony"
   },
   "author": "dan and gra",
   "license": "ISC",
   "dependencies": {
     "boom": "^3.2.2",
+    "chai": "^3.5.0",
+    "confidence": "^3.0.1",
     "glue": "^3.3.0",
     "hapi": "^13.4.1",
     "joi": "^8.4.2",
-    "wreck": "^8.0.0",
     "lodash": "^4.7.0",
+    "mocha": "^2.5.3",
+    "nock": "^8.0.0",
     "require-dir": "^0.3.0",
-    "confidence": "^3.0.1"
+    "wreck": "^8.0.0"
   }
 }

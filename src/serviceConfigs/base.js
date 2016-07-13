@@ -13,11 +13,8 @@ module.exports = class Base {
             throw new TypeError("Must override serviceUrl");
 
         this.routeReqs = new Array();
-        this.onRequests = new Array();
-        this.onResponses = new Array();
-
-        this.onRequests.push(correlationTokenHandler);
-        this.onResponses.push(resp => resp.processedDate = Date.now());
+        this.onRequests = [correlationTokenHandler];
+        this.onResponses = [resp => resp.headers.processedTimeStamp = Date.now()];
     }
 
     setOnRequest(onReq) {
@@ -40,13 +37,17 @@ module.exports = class Base {
         const r = _.find(this.routeReqs, x => new RegExp(x.route).test(request.path));
         if (r && r.onRequest)
             this.onRequests.push(r.onRequest);
-        return this.onRequests.length ? Promise.all(_.forEach(this.onRequests, x => x(request))) : Promise.resolve({});
+        return this.onRequests.length 
+            ? Promise.all(_.forEach(this.onRequests, x => x(request))) 
+            : Promise.resolve({});
     }
 
     onResponse(response) {
         const r = _.find(this.routeReqs, x => new RegExp(x.route).test(response.req.path));
         if (r && r.onResponse)
             this.onResponses.push(r.onResponse);
-        return this.onResponses.length ? Promise.all(_.forEach(this.onResponses, x => x(response))) : Promise.resolve({});
+        return this.onResponses.length 
+            ? Promise.all(_.forEach(this.onResponses, x => x(response))) 
+            : Promise.resolve({});
     }
 };

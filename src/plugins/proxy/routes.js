@@ -22,5 +22,6 @@ exports.registerRoutes = (server, option) => {
 };
 
 const handleJoiValidationError = (request, reply, source, error) => {
+    console.log(error);
     reply(error);
 };
